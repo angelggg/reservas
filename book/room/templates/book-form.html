@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %} Book a room  {% endblock %}
+{% block content %}
+   <div>
+        <a href="/">Home</a>
+    </div>
+<form action="/do-book" method="POST">
+  {% csrf_token %}
+   <div class="form-group">
+     <label for="room-type">Room type:</label>
+      <select {% if type %} readonly {% endif %} class="form-control" id="room-type" name="room-type">
+        <option {% if type == 1 %} selected {% endif %} value="1">Individual</option>
+        <option {% if type == 2 %} selected {% endif %} value="2">Doble</option>
+        <option {% if type == 3 %} selected {% endif %} value="3">Triple</option>
+        <option {% if type == 4 %} selected {% endif %} value="4">Cuádruple</option>
+      </select>
+   </div>
+  <div class="form-group">
+       <label for="start">Check in date:</label>
+        <input type="date" id="start" name="start"
+           value="{{start_date}}"
+           min="{{min_date}}" max="2021-12-31">
+  </div>
+  <div class="form-group">
+    <label for="end">Check out date:</label>
+       <input type="date" id="end" name="end"
+       value="{{end_date}}"
+       min="{{min_date}}" max="{{max_date}}">
+  </div>
+  <div class="form-group">
+      <label class="form-check-label" for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="name">
+    </div>
+    <div class="form-group">
+      <label class="form-check-label" for="name">Email</label>
+      <input type="email" id="email" name="email" placeholder="email">
+    </div>
+    <div class="form-group">
+      <label class="form-check-label" for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" placeholder="">
+    </div>
+    <input type="hidden" id="guests" name="guests" value="{{guests}}">
+  <button type="submit" class="btn btn-primary">Book</button>
+</form>
+{% endblock %}

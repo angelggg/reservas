@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %} Book a room  {% endblock %}
+{% block jsimports %}
+    <script src="../static/js/home.js"></script>
+{% endblock %}
+
+{% block content %}
+<style>
+.list-group{
+    max-height: 300px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+</style>
+{% if booked%}
+<div class="alert alert-success" role="alert">
+  Room booked successfully, starting on {{ check_in }}
+</div>
+{% endif %}
+{% if error%}
+<div class="alert alert-warning" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+<div>
+    <label for="start">Check in date:</label>
+    <input type="date" id="start" name="start" value="{{min_date}}" min="{{min_date}}" max="{{max_date}}">
+</div>
+<div>
+    <label for="end">Check out date:</label>
+    <input type="date" id="end" name="end"
+       value="{{min_date}}"
+       min="{{min_date}}" max="{{max_date}}">
+</div>
+   <div class="form-group">
+      <label class="form-check-label" for="guests">Guests</label>
+      <input type="number" id="guests" name="guests" min="1" max="4" value="1">
+   </div>
+<div>
+    <button id="button" type="button" class="btn btn-primary" onclick="checkAvailability()">See availability</button>
+</div>
+<div id="results">
+
+</div>
+
+<div class="panel panel-primary" id="result_panel">
+    <div class="panel-heading"><h3 class="panel-title">Reservation list</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% for reservation in reservations %}
+            <li class="list-group-item"><strong> {{ reservation.id }}</strong>: Check in: {{reservation.check_in_date}}
+                , check out: {{reservation.check_out_date}}, room type: {{reservation.room_type_name}}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
